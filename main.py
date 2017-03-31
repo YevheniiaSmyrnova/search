@@ -10,8 +10,9 @@ def main(query):
     data_source = DataSource(COOKING_BOOKS_FILE)
     inverted_index = InvertedIndex(INVERTED_INDEX_FILE)
     result = Searcher(data_source, inverted_index).search(query)
-    for id, title, score in result:
-        print id, title, score
+    # for id, title, score in result:
+    #     print id, title, score
+    return result
 
 
 if __name__ == '__main__':
