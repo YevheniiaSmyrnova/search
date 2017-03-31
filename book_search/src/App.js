@@ -102,12 +102,6 @@ class SearchBar extends React.Component{
     this.setState({filterText: this.refs.filterTextInput.value});
   }
 
-  componentDidMount() {
-    this.setState({table: <BooksTable books={this.props.books}/>});
-    console.log('books', this.props.books);
-    console.log('table', this.state.table);
-  }
-
   componentWillReceiveProps(nextProps) {
     console.log('component Will Receive Props');
     if (this.props.books !== nextProps.books) {
