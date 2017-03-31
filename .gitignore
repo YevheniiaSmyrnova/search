@@ -1,4 +1,4 @@
 # python precompiled files:
 *.pyc
 .idea
-.log
+*.log
