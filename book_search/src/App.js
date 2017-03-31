@@ -98,10 +98,8 @@ class SearchBar extends React.Component{
     };
   }
 
-  handleUserInput(filterText1) {
-    console.log(typeof(filterText1), filterText1);
-    this.setState({filterText: filterText1});
-    console.log("GET TABLE", this.props.filterText);
+  handleUserInput() {
+    this.setState({filterText: this.refs.filterTextInput.value});
   }
 
   componentDidMount() {
@@ -117,12 +115,6 @@ class SearchBar extends React.Component{
       this.filterBooksList();
       this.getTable();
     }
-  }
-
-  handleChange(){
-    this.handleUserInput(
-      this.refs.filterTextInput.value
-    );
   }
 
   filterBooksList(){
@@ -159,7 +151,7 @@ class SearchBar extends React.Component{
           placeholder="Search..."
           value={this.props.filterText}
           ref="filterTextInput"
-          onChange={this.handleChange.bind(this)}
+          onChange={this.handleUserInput.bind(this)}
         />
         <button onClick={this.filterBooksList.bind(this)}>Search</button>
         {this.state.table}
