@@ -10,6 +10,10 @@ class App extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.getBooksList();
+  }
+
   getBooksList(){
     $.ajax({
       type: 'GET',
@@ -23,10 +27,6 @@ class App extends React.Component {
           console.log('error get', xhr);
       }
     });
-  }
-
-  componentDidMount() {
-    this.getBooksList();
   }
 
   filterBooksList = (query) => {
@@ -54,6 +54,26 @@ class App extends React.Component {
           filterBooksList={this.filterBooksList}
         />
         <BooksTable books={this.state.books}/>
+      </div>
+    );
+  }
+}
+
+
+class SearchBar extends React.Component{
+  handleSearchSubmit() {
+    this.props.filterBooksList(this.refs.filterTextInput.value);
+  }
+
+  render(){
+    return (
+      <div>
+        <input
+          type="text"
+          placeholder="Search..."
+          ref="filterTextInput"
+        />
+        <button onClick={this.handleSearchSubmit.bind(this)}>Search</button>
       </div>
     );
   }
@@ -97,24 +117,5 @@ class BookNode extends React.Component {
   }
 }
 
-
-class SearchBar extends React.Component{
-  handleSearchSubmit() {
-    this.props.filterBooksList(this.refs.filterTextInput.value);
-  }
-
-  render(){
-    return (
-      <div>
-        <input
-          type="text"
-          placeholder="Search..."
-          ref="filterTextInput"
-        />
-        <button onClick={this.handleSearchSubmit.bind(this)}>Search</button>
-      </div>
-    );
-  }
-}
 
 export default App;
