@@ -16,7 +16,14 @@ title and score.
 ```
 git clone https://github.com/YevheniiaSmyrnova/search.git
 cd search
-python main.py 'slow cooker'
+python search.py
+```
+
+Open new terminal window
+
+```
+cd book_search
+npm start
 ```
 
 # Testing
