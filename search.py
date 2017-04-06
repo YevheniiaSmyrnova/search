@@ -36,8 +36,6 @@ def api_echo():
     elif request.method == 'POST':
         try:
             content = request.get_json()
-            print content['query']
-        # main(content['query'])
         except:
             return json.dumps({'result': 'bad'})
         return json.dumps(main(content['query']))

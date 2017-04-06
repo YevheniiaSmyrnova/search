@@ -15,7 +15,6 @@ class App extends React.Component {
       type: 'GET',
       dataType: 'json',
       url: '/books',
-      // crossDomain: true,
       success: data => {
         console.log('success get');
         this.setState({books: data});
@@ -30,13 +29,31 @@ class App extends React.Component {
     this.getBooksList();
   }
 
+  filterBooksList = (query) => {
+    $.ajax({
+      type: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      url: '/books',
+      data:  JSON.stringify({'query': query }),
+      success: data => {
+        console.log('success post');
+        this.setState({books: data});
+      },
+      error: (xhr, status, err) => {
+          console.log('error post', xhr, status, err);
+      }
+    })
+  }
+
   render() {
     return (
       <div>
       <h2>Books Table</h2>
         <SearchBar
-          books={this.state.books}
+          filterBooksList={this.filterBooksList}
         />
+        <BooksTable books={this.state.books}/>
       </div>
     );
   }
@@ -45,15 +62,8 @@ class App extends React.Component {
 
 class BooksTable extends React.Component {
   render() {
-    // var res = this.props.books.map((element) => {
-    //   return (
-    //      <BookNode key={element.id} id={element.id} title={element.title} score={element.score}/>
-    //   )
-    // });
-
-    var res = [];
-    this.props.books.forEach(function(element){
-      res.push(<BookNode key={element.id} id={element.id} title={element.title} score={element.score}/>);
+    var rov = this.props.books.map(function(book) {
+      return <BookNode key={book.id} id={book.id} title={book.title} score={book.score}/>;
     });
 
     return (
@@ -66,7 +76,7 @@ class BooksTable extends React.Component {
               <th>Score</th>
             </tr>
           </thead>
-          <tbody>{res}</tbody>
+          <tbody>{rov}</tbody>
         </table>
       </div>
     );
@@ -89,52 +99,8 @@ class BookNode extends React.Component {
 
 
 class SearchBar extends React.Component{
-  constructor(props) {
-    super(props);
-    this.state = {
-      books: this.props.books,
-      filterText: '',
-      filterBooks: [],
-    };
-  }
-
-  handleUserInput() {
-    this.setState({filterText: this.refs.filterTextInput.value});
-  }
-
-  componentWillReceiveProps(nextProps) {
-    console.log('component Will Receive Props');
-    if (this.props.books !== nextProps.books) {
-      this.setState({books: nextProps.books});
-      this.filterBooksList();
-      this.getTable();
-    }
-  }
-
-  filterBooksList(){
-    $.ajax({
-      type: 'POST',
-      contentType: 'application/json',
-      dataType: 'json',
-      url: '/books',
-      data:  JSON.stringify({'query': this.refs.filterTextInput.value }),
-      success: data => {
-        console.log('success post');
-        this.setState({filterBooks: data});
-        this.getTable();
-      },
-      error: (xhr, status, err) => {
-          console.log('error post', xhr, status, err);
-      }
-    })
-  }
-
-  getTable(){
-    if (!this.state.filterText) {
-      this.setState({table: <BooksTable books={this.props.books}/>});
-    } else {
-      this.setState({table: <BooksTable books={this.state.filterBooks}/>});
-    };
+  handleSearchSubmit() {
+    this.props.filterBooksList(this.refs.filterTextInput.value);
   }
 
   render(){
@@ -143,16 +109,12 @@ class SearchBar extends React.Component{
         <input
           type="text"
           placeholder="Search..."
-          value={this.props.filterText}
           ref="filterTextInput"
-          onChange={this.handleUserInput.bind(this)}
         />
-        <button onClick={this.filterBooksList.bind(this)}>Search</button>
-        {this.state.table}
+        <button onClick={this.handleSearchSubmit.bind(this)}>Search</button>
       </div>
     );
   }
 }
-
 
 export default App;
