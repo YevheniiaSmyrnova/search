@@ -10,6 +10,8 @@ title and score.
 # Technologies
 
 * Language: Python 2.7
+* Frameworks: Flask, React
+* UI: HTML, CSS, JavaScript
 
 # Installation and run
 
