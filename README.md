@@ -29,6 +29,6 @@ npm start
 # Testing
 
 ```
-cd search/search/
-python tests.py
+cd search/models/
+python test.py
 ```
