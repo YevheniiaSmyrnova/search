@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "jquery": "^3.2.0",
-    "jquery-asPaginator": "^0.3.2",
     "pagination-component": "^1.5.3",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
