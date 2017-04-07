@@ -18,11 +18,12 @@ class Searcher(object):
             keywords_dict = pickle.load(f)
         dict_id_with_keywords = {}
         for keyword in query_set:
-            for id in keywords_dict[keyword]:
-                if id in dict_id_with_keywords:
-                    dict_id_with_keywords[id].append(keyword)
-                else:
-                    dict_id_with_keywords[id] = [keyword]
+            if keyword in keywords_dict.keys():
+                for id in keywords_dict[keyword]:
+                    if id in dict_id_with_keywords:
+                        dict_id_with_keywords[id].append(keyword)
+                    else:
+                        dict_id_with_keywords[id] = [keyword]
         result = []
         for id in dict_id_with_keywords.keys():
             for id_data, title_data in self.data_source.read_file():
