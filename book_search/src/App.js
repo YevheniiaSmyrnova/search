@@ -14,7 +14,7 @@ class App extends React.Component {
     this.getBooksList();
   }
 
-  getBooksList(){
+  getBooksList = () => {
     $.ajax({
       type: 'GET',
       dataType: 'json',
@@ -41,19 +41,28 @@ class App extends React.Component {
         this.setState({books: data});
       },
       error: (xhr, status, err) => {
-          console.log('error post', xhr, status, err);
+        console.log('error post', xhr, status, err);
+        this.setState({books: []});
       }
     })
   }
-
+  
   render() {
+    var table = null;
+    if (this.state.books.length) {
+      table = <BooksTable books={this.state.books}/>;
+    } else {
+      table = <p>Books not found =(</p>;
+    }
+
     return (
       <div>
       <h2>Books Table</h2>
         <SearchBar
+          getBooksList={this.getBooksList}
           filterBooksList={this.filterBooksList}
         />
-        <BooksTable books={this.state.books}/>
+        {table}
       </div>
     );
   }
@@ -62,7 +71,11 @@ class App extends React.Component {
 
 class SearchBar extends React.Component{
   handleSearchSubmit() {
-    this.props.filterBooksList(this.refs.filterTextInput.value);
+    if (this.refs.filterTextInput.value) {
+      this.props.filterBooksList(this.refs.filterTextInput.value);
+    } else {
+      this.props.getBooksList();
+    }
   }
 
   render(){
@@ -82,7 +95,11 @@ class SearchBar extends React.Component{
 
 class BooksTable extends React.Component {
   render() {
+    var scoreTitle = null;
     var rov = this.props.books.map(function(book) {
+      if (book.score) {
+        scoreTitle = <th>Score</th>;
+      }
       return <BookNode key={book.id} id={book.id} title={book.title} score={book.score}/>;
     });
 
@@ -93,7 +110,7 @@ class BooksTable extends React.Component {
             <tr>
               <th>Books id</th>
               <th>Title</th>
-              <th>Score</th>
+              {scoreTitle}
             </tr>
           </thead>
           <tbody>{rov}</tbody>
@@ -106,12 +123,17 @@ class BooksTable extends React.Component {
 
 class BookNode extends React.Component {
   render(){
+    var scoreBody = null;
+    if (this.props.score) {
+      scoreBody = <td>{this.props.score}</td>;
+    }
+
 
     return (
       <tr>
         <td>{this.props.id}</td>
         <td>{this.props.title}</td>
-        <td>{this.props.score}</td>
+        {scoreBody}
       </tr>
     );
   }
