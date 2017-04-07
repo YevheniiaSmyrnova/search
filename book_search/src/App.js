@@ -53,7 +53,7 @@ class App extends React.Component {
     if (this.state.books.length) {
       table = <BooksTable books={this.state.books}/>;
     } else {
-      table = <p>Books not found =(</p>;
+      table = <p className='notFound'>Books not found =(</p>;
     }
 
     return (
