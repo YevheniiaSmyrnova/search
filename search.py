@@ -11,7 +11,7 @@ from models.inverted_index import InvertedIndex
 from models.data_source import DataSource
 
 
-def main(query):
+def source(query):
     data_source = DataSource(COOKING_BOOKS_FILE)
     inverted_index = InvertedIndex(INVERTED_INDEX_FILE)
     result = Searcher(data_source, inverted_index).search(query)
@@ -37,7 +37,7 @@ def api_echo():
             content = request.get_json()
         except:
             return json.dumps({'result': 'bad'})
-        return json.dumps(main(content['query']))
+        return json.dumps(source(content['query']))
 
 
 if __name__ == "__main__":
