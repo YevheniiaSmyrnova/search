@@ -1,15 +1,37 @@
+header{
+    padding: 1em;
+    color: white;
+    background-color: black;
+    clear: left;
+    text-align: center;
+}
+
+div.container {
+    margin: auto;
+    width: 90%;
+    border: 1px solid gray;
+}
+
+div.searchBar {
+    padding: 1em;
+    float: right;
+}
+
 table {
+    margin: auto;
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 90%;
 }
 
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
+th {
+    border: 1px solid gray;
+    text-align: center;
     padding: 8px;
 }
-div.container {
-    width: 100%;
+
+td {
     border: 1px solid gray;
+    text-align: left;
+    padding: 8px;
 }

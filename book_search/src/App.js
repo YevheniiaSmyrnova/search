@@ -25,7 +25,7 @@ class App extends React.Component {
       },
       error: (xhr, status, err) => {
           console.log('error get', xhr);
-      }
+      },
     });
   }
 
@@ -43,10 +43,11 @@ class App extends React.Component {
       error: (xhr, status, err) => {
         console.log('error post', xhr, status, err);
         this.setState({books: []});
-      }
-    })
+      },
+    });
   }
-  
+
+  //ToDo: add pagination
   render() {
     var table = null;
     if (this.state.books.length) {
@@ -56,12 +57,16 @@ class App extends React.Component {
     }
 
     return (
-      <div>
-      <h2>Books Table</h2>
-        <SearchBar
-          getBooksList={this.getBooksList}
-          filterBooksList={this.filterBooksList}
-        />
+      <div className='container'>
+        <header>
+          <h1>Books Table</h1>
+        </header>
+        <div className='searchBar'>
+          <SearchBar
+            getBooksList={this.getBooksList}
+            filterBooksList={this.filterBooksList}
+          />
+        </div>
         {table}
       </div>
     );
@@ -127,7 +132,6 @@ class BookNode extends React.Component {
     if (this.props.score) {
       scoreBody = <td>{this.props.score}</td>;
     }
-
 
     return (
       <tr>
